@@ -14,7 +14,7 @@
         <div class="forecast-container">
           <div class="today forecast">
             <div class="forecast-header">
-              <div class="day">Monday</div>
+              <div class="day">Mon</div>
               <div class="date">6 Oct</div>
             </div> <!-- .forecast-header -->
             <div class="forecast-content">
@@ -28,12 +28,12 @@
               <span><img src="images/icon-umberella.png" alt="">20%</span>
               <span><img src="images/icon-wind.png" alt="">{{ speed }}km/h</span>
               <span><img src="images/icon-compass.png" alt="">East</span>
-              <h6>{{ main }} </h6>
+              <h4 class="mt-6"> Rain </h4>
             </div>
           </div>
           <div class="forecast">
             <div class="forecast-header">
-              <div class="day">Tuesday</div>
+              <div class="day">Tue</div>
             </div> <!-- .forecast-header -->
             <div class="forecast-content">
               <div class="forecast-icon">
@@ -45,7 +45,7 @@
           </div>
           <div class="forecast">
             <div class="forecast-header">
-              <div class="day">Wednesday</div>
+              <div class="day">Wed</div>
             </div> <!-- .forecast-header -->
             <div class="forecast-content">
               <div class="forecast-icon">
@@ -57,7 +57,7 @@
           </div>
           <div class="forecast">
             <div class="forecast-header">
-              <div class="day">Thursday</div>
+              <div class="day">Thur</div>
             </div> <!-- .forecast-header -->
             <div class="forecast-content">
               <div class="forecast-icon">
@@ -69,7 +69,7 @@
           </div>
           <div class="forecast">
             <div class="forecast-header">
-              <div class="day">Friday</div>
+              <div class="day">Fri</div>
             </div> <!-- .forecast-header -->
             <div class="forecast-content">
               <div class="forecast-icon">
@@ -81,7 +81,7 @@
           </div>
           <div class="forecast">
             <div class="forecast-header">
-              <div class="day">Saturday</div>
+              <div class="day">Sat</div>
             </div> <!-- .forecast-header -->
             <div class="forecast-content">
               <div class="forecast-icon">
@@ -93,7 +93,7 @@
           </div>
           <div class="forecast">
             <div class="forecast-header">
-              <div class="day">Sunday</div>
+              <div class="day">Sun</div>
             </div> <!-- .forecast-header -->
             <div class="forecast-content">
               <div class="forecast-icon">
@@ -245,12 +245,11 @@
       }
     },
     mounted() {
-      //const axios = require('axios');
+      const axios = require('axios');
       const apiGet = 'http://api.openweathermap.org/data/2.5/weather?q=' + this.search +'&APPID=13eac6566d4c67caaf918ae74e60b7c9';
-      fetch(apiGet, {
-        method: 'get'
-      })
 
+      axios
+              .get(apiGet)
               .then(response => (
                  this.info = response.data,
                  this.name = response.data.name + ', ' + response.data.sys.country,
