@@ -245,11 +245,12 @@
       }
     },
     mounted() {
-      const axios = require('axios');
+      //const axios = require('axios');
       const apiGet = 'http://api.openweathermap.org/data/2.5/weather?q=' + this.search +'&APPID=13eac6566d4c67caaf918ae74e60b7c9';
+      fetch(apiGet, {
+        method: 'get'
+      })
 
-      axios
-              .get(apiGet)
               .then(response => (
                  this.info = response.data,
                  this.name = response.data.name + ', ' + response.data.sys.country,
