@@ -1,38 +1,38 @@
 <template>
   <div>
-      <div class="hero" v-bind:style="{ backgroundImage: 'url(' + image + ')'} ">
-        <div class="container">
-          <form action="#" class="find-location" @submit.prevent="getData">
-            <input type="text" v-model="search"  placeholder="Find your location...">
-            <input type="submit" value="Find">
-          </form>
+    <div class="hero" v-bind:style="{ backgroundImage: 'url(' + image + ')'} ">
+      <div class="container">
+        <form action="#" class="find-location" @submit.prevent="getData">
+          <input type="text" v-model="search"  placeholder="Find your location...">
+          <input type="submit" value="Find">
+        </form>
 
-        </div>
       </div>
-      <div class="forecast-table">
-        <div class="container">
-          <div class="forecast-container">
-            <div class="today forecast">
-              <div class="forecast-header">
-                <div class="day">Monday</div>
-                <div class="date">6 Oct</div>
-              </div> <!-- .forecast-header -->
-              <div class="forecast-content">
-                <div class="location">{{ info.name }}, {{ info.sys.country }}</div>
-                <div class="degree">
-                  <div class="num">{{ Math.round(info.main.temp) - 273}}<sup>o</sup>C</div>
-                  <div class="forecast-icon">
-                    <img src="images/icons/icon-1.svg" alt="" width=90>
-                  </div>
+    </div>
+    <div class="forecast-table">
+      <div class="container">
+        <div class="forecast-container">
+          <div class="today forecast">
+            <div class="forecast-header">
+              <div class="day">Monday</div>
+              <div class="date">6 Oct</div>
+            </div> <!-- .forecast-header -->
+            <div class="forecast-content">
+              <div class="location">{{ name }}</div>
+              <div class="degree">
+                <div class="num">{{ temp }}<sup>o</sup>C</div>
+                <div class="forecast-icon">
+                  <img src="images/icons/icon-1.svg" alt="" width=90>
                 </div>
-                <span><img src="images/icon-umberella.png" alt="">20%</span>
-                <span><img src="images/icon-wind.png" alt="">{{ info.wind.speed }}km/h</span>
-                <span><img src="images/icon-compass.png" alt="">East</span>
-                <h6>{{ main }} </h6>
               </div>
+              <span><img src="images/icon-umberella.png" alt="">20%</span>
+              <span><img src="images/icon-wind.png" alt="">{{ speed }}km/h</span>
+              <span><img src="images/icon-compass.png" alt="">East</span>
+              <h6>{{ main }} </h6>
             </div>
-            <div class="forecast">
-              <div class="forecast-header">
+          </div>
+          <div class="forecast">
+            <div class="forecast-header">
               <div class="day">Tuesday</div>
             </div> <!-- .forecast-header -->
             <div class="forecast-content">
@@ -226,55 +226,64 @@
 </template>
 
 <script>
-// @ is an alias to /src
+  // @ is an alias to /src
 
-export default {
+  export default {
 
-  name: 'Home',
-  components: {
-    //HelloWorld
-  },
-  data() {
-    return {
-      info: null,
-      main: "Rain",
-      image: 'images/banner.png',
-      search: "Lagos, ng"
-    }
-  },
-  mounted() {
-    const axios = require('axios');
-    const apiGet = 'http://api.openweathermap.org/data/2.5/weather?q=' + this.search +'&APPID=13eac6566d4c67caaf918ae74e60b7c9';
-
-    axios
-       .get(apiGet)
-       .then(response => (
-          this.info = response.data,
-          console.log(response.data)
-       ))
-       .catch(error => {
-         console.log(error)
-         this.info = error
-       });
-  },
-
-  methods: {
-    getData(){
+    name: 'Home',
+    components: {
+      //HelloWorld
+    },
+    data() {
+      return {
+        info: "",
+        temp: 0,
+        speed: "",
+        name: "loading...",
+        image: 'images/banner.png',
+        search: "Lagos, ng"
+      }
+    },
+    mounted() {
       const axios = require('axios');
       const apiGet = 'http://api.openweathermap.org/data/2.5/weather?q=' + this.search +'&APPID=13eac6566d4c67caaf918ae74e60b7c9';
-      //const apiGet2 = 'http://api.weatherapi.com/v1/current.json?key=c023dec647674ea78c8155213202711&q=' + this.search;
-      axios
-        .get(apiGet)
-        .then(response => (
-          this.info = response.data,
-          console.log(response.data)
 
-        ))
-      .catch(error => {
-        console.log(error)
-        this.info = error
-      });
+      axios
+              .get(apiGet)
+              .then(response => (
+                 this.info = response.data,
+                 this.name = response.data.name + ', ' + response.data.sys.country,
+                 this.temp = Math.round(response.data.main.temp) - 273,
+                 this.speed = response.data.wind.speed,
+
+                 console.log(response.data)
+              ))
+              .catch(error => {
+                console.log(error)
+                this.info = error
+              });
+    },
+
+    methods: {
+      getData(){
+        const axios = require('axios');
+        const apiGet = 'http://api.openweathermap.org/data/2.5/weather?q=' + this.search +'&APPID=13eac6566d4c67caaf918ae74e60b7c9';
+        //const apiGet2 = 'http://api.weatherapi.com/v1/current.json?key=c023dec647674ea78c8155213202711&q=' + this.search;
+        axios
+                .get(apiGet)
+                .then(response => (
+                   this.info = response.data,
+                   this.name = response.data.name + ', ' + response.data.sys.country,
+                   this.temp = Math.round(response.data.main.temp) - 273,
+                   this.speed = response.data.wind.speed,
+
+                   console.log(response.data)
+                ))
+                .catch(error => {
+                  console.log(error)
+                  this.info = error
+                });
+      }
     }
   }
-}
 </script>
